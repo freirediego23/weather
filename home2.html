@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta name="author" content="Ben Howdle and Dan Matthew">
+   <meta name="description" content="A responsive movie poster grabber">
+   <title>Ecuador Weather Report</title>
+   <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0">
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  
+   
+   
+</head>
+<body>
+
+<main>
+
+   <div id="back">
+     <h2>List</h2>
+   </div>
+   <button onclick="itemList()">Start</button>
+ 
+   <div class="container">
+    
+      <div class="items">
+        <div id="results"></div>
+      </div>
+      
+      
+    
+  </div>
+   
+ 
+ 
+ </main>
+ 
+  
+  <script>
+  
+  function itemList()
+      {
+        console.log('checkout run');
+        $.ajax({
+          url: 'https://api.openweathermap.org/data/2.5/group?id=3652941,3652462,3657509&units=metric&APPID=8f48c3312f63db9d42ab7fcdf5e04a62',
+          type: 'GET',
+          dataType: 'json', //will parse json into javascript object
+          //callback called when suceed
+          success: (data) => {
+            console.log('ajax success!', data);
+                
+                // const info = data;
+                // var string = JSON.parse(info);
+                // console.log(string.main);
+                // console.log(string.description);
+                const cities = data.list;
+                console.log(cities);
+              html = "";
+              
+            $.each(cities, function (index, value) {
+              
+              var img = this.weather[0].icon + ".png";
+              html += "<p><span>" + this.sys.country + "</span></p>";
+              html += "<h4>" + this.name + "</h4>";
+              html += "<p>" + "Temp: " + this.main.temp + "</p>";
+              html += "<p>" + "Humidity: " + this.main.humidity + "</p>";
+              html += "<p>" + "Description: " + this.weather[0].description + "</p>";
+              html += "<img src=" + img +">";
+              
+              
+              
+              html += "<hr>"
+            });// END LOOP
+              
+          //added end
+            result = "";
+            result = html;
+            //select status id element display in html
+            $('#results').html(result);
+          }//sucess data call
+        });//ajax function call
+        //CART CLICK AJAX END
+      }//cartPopup on click
+  </script>
+
+
+</body>
+</html>
